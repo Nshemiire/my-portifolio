@@ -88,7 +88,7 @@ bars.forEach(bar => {
 });
 
 /* ── Initialize EmailJS ── */
-emailjs.init('YOUR_PUBLIC_KEY_HERE'); // Replace with your EmailJS public key
+emailjs.init('9VmPSvDSqKF-JKBjG');
 
 /* ── Contact form ── */
 const contactForm = document.getElementById('contactForm');
@@ -114,11 +114,11 @@ if (contactForm) {
       btn.disabled = true;
     }
 
-    emailjs.send('SERVICE_ID_HERE', 'TEMPLATE_ID_HERE', {
+    emailjs.send('service_3wmbi85', 'template_x49kfxh', {
       from_name: name,
       from_email: email,
       message: message,
-      to_email: 'YOUR_GMAIL@gmail.com'
+      to_email: 'nshemiirepatrick@gmail.com'
     }).then(() => {
       showToast('Message sent! I\'ll get back to you soon.', 'success');
       contactForm.reset();

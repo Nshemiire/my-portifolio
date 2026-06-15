@@ -4,24 +4,32 @@
 
 /* ── Navbar scroll effect ── */
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 40) {
-    navbar.style.background = 'rgba(11,17,32,0.97)';
-  } else {
-    navbar.style.background = 'rgba(11,17,32,0.85)';
-  }
-});
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      navbar.style.background = 'rgba(11,17,32,0.97)';
+    } else {
+      navbar.style.background = 'rgba(11,17,32,0.85)';
+    }
+  });
+}
 
 /* ── Mobile nav toggle ── */
 const navToggle = document.getElementById('navToggle');
 const navLinks  = document.querySelector('.nav-links');
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
-// Close on link click
-navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => navLinks.classList.remove('open'));
-});
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  // Close on link click
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
 /* ── Scroll fade-in ── */
 const fadeEls = document.querySelectorAll(
@@ -53,7 +61,13 @@ const highlightNav = () => {
     }
   });
   navItems.forEach(a => {
-    a.style.color = a.getAttribute('href') === `#${current}` ? '#00C9A7' : '';
+    if (a.getAttribute('href') === `#${current}`) {
+      a.style.color = '#00C9A7';
+      a.setAttribute('aria-current', 'page');
+    } else {
+      a.style.color = '';
+      a.removeAttribute('aria-current');
+    }
   });
 };
 window.addEventListener('scroll', highlightNav);
@@ -79,9 +93,9 @@ if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const btn = contactForm.querySelector('button[type="submit"]');
-    const name    = document.getElementById('name').value.trim();
-    const email   = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
+    const name    = (document.getElementById('name') || {}).value?.trim() || '';
+    const email   = (document.getElementById('email') || {}).value?.trim() || '';
+    const message = (document.getElementById('message') || {}).value?.trim() || '';
 
     if (!name || !email || !message) {
       showToast('Please fill in all fields.', 'error');
@@ -92,14 +106,18 @@ if (contactForm) {
       return;
     }
 
-    btn.textContent = 'Sending…';
-    btn.disabled = true;
+    if (btn) {
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+    }
     // Simulate send (replace with actual backend / EmailJS)
     setTimeout(() => {
       showToast('Message sent! I\'ll get back to you soon.', 'success');
       contactForm.reset();
-      btn.textContent = 'Send Message';
-      btn.disabled = false;
+      if (btn) {
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+      }
     }, 1400);
   });
 }

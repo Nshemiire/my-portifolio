@@ -87,6 +87,9 @@ bars.forEach(bar => {
   barObserver.observe(bar);
 });
 
+/* ── Initialize EmailJS ── */
+emailjs.init('YOUR_PUBLIC_KEY_HERE'); // Replace with your EmailJS public key
+
 /* ── Contact form ── */
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
@@ -110,15 +113,27 @@ if (contactForm) {
       btn.textContent = 'Sending…';
       btn.disabled = true;
     }
-    // Simulate send (replace with actual backend / EmailJS)
-    setTimeout(() => {
+
+    emailjs.send('SERVICE_ID_HERE', 'TEMPLATE_ID_HERE', {
+      from_name: name,
+      from_email: email,
+      message: message,
+      to_email: 'YOUR_GMAIL@gmail.com'
+    }).then(() => {
       showToast('Message sent! I\'ll get back to you soon.', 'success');
       contactForm.reset();
       if (btn) {
         btn.textContent = 'Send Message';
         btn.disabled = false;
       }
-    }, 1400);
+    }).catch((error) => {
+      console.error('EmailJS error:', error);
+      showToast('Failed to send message. Try again later.', 'error');
+      if (btn) {
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+      }
+    });
   });
 }
 

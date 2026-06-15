@@ -111,9 +111,10 @@ img { max-width: 100%; display: block; }
 /* ======================== HERO ======================== */
 .hero {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 420px);
+  align-items: center;
+  gap: 48px;
   padding: 100px 24px 60px;
   max-width: 1180px;
   margin: 0 auto;
@@ -184,15 +185,77 @@ img { max-width: 100%; display: block; }
   gap: 16px;
   flex-wrap: wrap;
 }
-.hero-card-float {
+.hero-visual {
   display: flex;
-  gap: 16px;
-  margin-top: 64px;
-  flex-wrap: wrap;
-  position: relative;
+  justify-content: flex-end;
+  align-items: center;
   z-index: 1;
 }
-.stat-card {
+.active-image-card {
+  width: min(420px, 100%);
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.24);
+  background: linear-gradient(180deg, rgba(11,17,32,0.94), rgba(16,24,42,0.96));
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  position: relative;
+}
+.active-image-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform var(--transition), filter var(--transition);
+}
+.active-image-card:hover,
+.active-image-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(0,201,167,0.35);
+  outline: none;
+}
+.active-image-card:focus-visible {
+  box-shadow: 0 0 0 4px rgba(0,201,167,0.24);
+}
+.active-image-card .image-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 18px 22px;
+  background: linear-gradient(180deg, transparent, rgba(11,17,32,0.95));
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.active-image-card.active img {
+  transform: scale(1.04) rotate(-0.25deg);
+  filter: brightness(1.04);
+}
+.active-image-card.active .image-overlay {
+  color: var(--teal);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero-visual {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 90px;
+  }
+}
+.hero-card-float {
   background: var(--navy-light);
   border: 1px solid var(--border);
   border-radius: var(--radius);

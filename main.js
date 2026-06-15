@@ -154,6 +154,27 @@ function showToast(message, type = 'success') {
 }
 
 /* ── Inject toast keyframe ── */
+const activeImageCard = document.getElementById('activeImageCard');
+if (activeImageCard) {
+  const overlayText = activeImageCard.querySelector('.image-overlay span');
+  const setActive = (active) => {
+    activeImageCard.classList.toggle('active', active);
+    activeImageCard.setAttribute('aria-pressed', String(active));
+    overlayText.textContent = active ? 'Active image' : 'Tap to activate';
+  };
+
+  activeImageCard.addEventListener('click', () => {
+    setActive(!activeImageCard.classList.contains('active'));
+  });
+
+  activeImageCard.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setActive(!activeImageCard.classList.contains('active'));
+    }
+  });
+}
+
 const style = document.createElement('style');
 style.textContent = `@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`;
 document.head.appendChild(style);

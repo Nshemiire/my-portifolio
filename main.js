@@ -117,6 +117,7 @@ if (contactForm) {
     emailjs.send('service_3wmbi85', 'template_x49kfxh', {
       from_name: name,
       from_email: email,
+      reply_to: email,
       message: message,
       to_email: 'nshemiirepatrick@gmail.com'
     }).then(() => {

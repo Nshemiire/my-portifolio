@@ -109,18 +109,18 @@ if (contactForm) {
       return;
     }
 
+    const subjectField = document.getElementById('subjectField');
+    if (subjectField) {
+      subjectField.value = `New message from ${name}`;
+    }
+
     if (btn) {
       btn.textContent = 'Sending…';
       btn.disabled = true;
     }
 
-    emailjs.send('service_3wmbi85', 'template_x49kfxh', {
-      from_name: name,
-      from_email: email,
-      reply_to: email,
-      message: message,
-      to_email: 'nshemiirepatrick@gmail.com'
-    }).then(() => {
+    console.log('Submitting contact form to EmailJS');
+    emailjs.sendForm('service_3wmbi85', 'template_x49kfxh', contactForm).then(() => {
       showToast('Message sent! I\'ll get back to you soon.', 'success');
       contactForm.reset();
       if (btn) {
